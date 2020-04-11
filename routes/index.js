@@ -12,4 +12,12 @@ router.get('/dashboard', ensureAuthenticated, (req, res) =>
   })
 );
 
+router.get('/maps',function(req,res){
+	res.render('map');
+})
+router.get('/profile',function(req,res){
+	res.render('profile');
+})
+
+
 module.exports = router;
