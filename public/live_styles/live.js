@@ -104,7 +104,7 @@ function filltabledata(file)
       deaths:data.summary.deaths
 
   });
-  
+
  generatetable(table,tabledata);
 }
 function filltabledata1(data)
