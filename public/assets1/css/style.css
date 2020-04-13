@@ -8,17 +8,30 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+.bodyback{
 
+}
+.sidenav{
+  color: black;
+}
+.topmargin{
+  margin-top: 10px;
+}
+.togglesearch{
+  display: none;
+}
 
-
+.margins{
+  margin-left: 5px;
+}
 
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
-  
+
   /*position: absolute;*/
   /*background: url("http://smallenvelop.com/wp-content/uploads/2014/08/Preloader_2.gif")*/
-    
+
 }
 
 a {
