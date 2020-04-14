@@ -1,19 +1,22 @@
 
+//Variable initialiazation
 var table=document.querySelector("#t1");
 var table1=document.querySelector("#t2");
 var input=document.getElementById("search");
 var search=document.getElementById("searching");
 var toggle=document.getElementById("toggle");
-var searchdiv=document.getElementById("searchon");
 var charts=document.getElementById("charts");
+var searchdiv=document.getElementById("searchon");
+var table3=document.getElementById("table3");
 console.log(input);
 var tabledata=[];
 var table1data=[];
 var timedata=[];
 var countrypoints=[];
+
 window.onload = function() {
     var dataPoints = [];
-
+  //Generating points for indian Histogram
     function getDataPointsFromCSV(json) {
 
         for (var i = 0; i < json.statewise.length; i++)
@@ -29,7 +32,7 @@ window.onload = function() {
 
         return dataPoints;
     }
-
+//Api call for indian histogram and rendering the chart
 jQuery.get("https://api.covid19india.org/data.json", function(data) {
   var chart = new CanvasJS.Chart("chartContainer", {
     animationEnabled:true,
@@ -37,10 +40,17 @@ jQuery.get("https://api.covid19india.org/data.json", function(data) {
     theme:"light2",
     axisX:{
       interval:1,
-      labelAngle:-70
+      labelAngle:-70,
+      title:"State"
+    },
+    axisY:{
+      title:"Cases",
     },
     title: {
          text: "Current Status",
+    },
+    options:{
+      responsive:true
     },
     data: [{
          type: "column",
@@ -53,9 +63,13 @@ jQuery.get("https://api.covid19india.org/data.json", function(data) {
 });
 
 }
+//Dynamically Generating Table
 function generatetable(table1,tabledata1)
-{
-
+{ var tableHeaderRowCount = 1;
+  var rowCount = table1.rows.length;
+for (var i = tableHeaderRowCount; i < rowCount; i++) {
+    table1.deleteRow(tableHeaderRowCount);
+}
   for(var i=0;i<tabledata1.length;i++)
  {
      var row=table1.insertRow();
@@ -67,13 +81,16 @@ function generatetable(table1,tabledata1)
  }
 }
 
+//Api call for Generating Indian table
 jQuery.get("https://api.rootnet.in/covid19-in/stats/latest", function(data) {
      filltabledata(data);
     //chart.set("dataPointWidth",Math.ceil(chart.axisX[0].bounds.width/chart.data[0].dataPoints.length),true);
 });
+//Api call for generating world table
 $.get("https://corona.lmao.ninja/all",function(data){
   filltabledata1(data);
 })
+//Api call to get world data
 $.get("https://pomber.github.io/covid19/timeseries.json",function(data){
   for(var i in data)
   { var name=i;
@@ -82,6 +99,7 @@ $.get("https://pomber.github.io/covid19/timeseries.json",function(data){
   }
   console.log(timedata);
 });
+//function to create array suitable for indian table Data
 function filltabledata(file)
 {
   var data=file.data;
@@ -104,7 +122,7 @@ function filltabledata(file)
       deaths:data.summary.deaths
 
   });
-
+//function to generate world table data array
  generatetable(table,tabledata);
 }
 function filltabledata1(data)
@@ -122,6 +140,7 @@ function filltabledata1(data)
    );
   generatetable(table1,table1data);
 }
+//searching and generating the chart and table
 search.addEventListener("click",function(){
   ser(input.value);
 });
@@ -129,9 +148,13 @@ function ser(text)
 { var counter=0;
   for(var i=0;i<timedata.length;i++)
   {
-    if(text === timedata[i].country)
+    if(text.toLowerCase() === timedata[i].country.toLowerCase() ||  text === timedata[i].country)
     {
       console.log(timedata[i]);
+      if(!document.getElementById("error").classList.toggle("notfound"))
+      {
+        document.getElementById("error").classList.toggle("notfound");
+      }
       createdataset(timedata[i].data);
       break;
     }
@@ -139,21 +162,26 @@ function ser(text)
   }
   if(counter == timedata.length)
   {
-    console.log("no data found");
+   if(document.getElementById("error").classList.toggle("notfound"))
+   {
+     document.getElementById("error").classList.toggle("notfound");
+   }
   }
 }
 function createdataset(data)
 { var counter=1;
   countrypoints=[];
   console.log(data);
+
+
   for(var i=0;i<data.length;i++)
   {
     if(parseFloat(data[i].confirmed)>0)
     {
-      console.log("in if");
+
       countrypoints.push(
         {
-          x:counter,
+          x:new Date(data[i].date),
           y:parseFloat(data[i].confirmed),
           label:data.date
         }
@@ -162,19 +190,44 @@ function createdataset(data)
     }
   }
   console.log(countrypoints);
+
+  generatetable(table3,data.reverse());
+  if(!document.getElementById("livechart").classList.contains("countrychart"))
+  {
+    document.getElementById("livechart").classList.toggle("countrychart");
+  }
+  if(document.getElementById("ctoff").classList.contains("table3off")){
+
+    document.getElementById("ctoff").classList.toggle("table3off");
+  }
   var chart1=new CanvasJS.Chart("livechart",{
     animationEnabled:true,
     theme:"light2",
+    axisX:{
+      title:"Day"
+    },
+    axisY:{
+      title:"Active cases"
+    },
     title:{
       text:"Date wise status",
+    },
+    options:{
+      responsive:true
     },
     data:[{
       type:"line",
       dataPoints:countrypoints
     }]
   });
+
    chart1.render();
+
+
+
+
 }
+
 toogle.addEventListener("click",function(){
    charts.classList.toggle("togglesearch");
    searchdiv.classList.toggle("togglesearch");

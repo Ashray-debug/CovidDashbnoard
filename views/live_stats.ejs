@@ -6,7 +6,7 @@
     <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <link href="assets1/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets1/img/icon.png" rel="apple-touch-icon">
-
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500&display=swap" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
@@ -16,6 +16,7 @@
     <link href="../assets1/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
     <link href="../assets1/vendor/venobox/venobox.css" rel="stylesheet">
     <link href="../assets1/vendor/aos/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 
     <!-- Template Main CSS File -->
     <link href="../assets1/css/style.css" rel="stylesheet">
@@ -54,12 +55,12 @@
     </header>
 
       <div class="row">
-           <div class="col-md-2">
+           <div class="col-md-2 col-sm-4">
              <div class="card sidenav container topmargin">
                  <button type="button" id="toogle" class="btn btn-success">Search on/off</button>
              </div>
            </div>
-        <div class="col-md-10">
+        <div class="col-sm-md-10 col-sm-8">
           <div class="margins">
 
            <div id="charts">
@@ -98,16 +99,38 @@
 
          <div>
            <input type="text" id="search" class="form-control"  >
-         <button type="button" id="searching" class="btn btn-success">search</button>
+         <button type="button" id="searching" class="btn btn-success" style="display:inline;">search</button>
+       </div>
+       <div id="error" class="notfound card">
+            <i class="fas fa-exclamation-triangle"></i>Sorry no data found! Try using different name for country (for eg: US for USA)
+       </div>
+       <div class="table3off" id="ctoff">
+         <div  id="livechart" class="card topmargin" ></div>
+
+         <div class="card topmargin" >
+          <table id="table3" style="margin-top:10px; widht:100%;" class="table-striped table-bordered   table3">
+              <thead>
+                <td>Date</td>
+                <td>confirmed</td>
+                <td>Deaths</td>
+                <td>Recovered</td>
+              </thead>
+       </table>
+     </div>
+
+       </div>
+
+
          </div>
 
 
-          <div  id="livechart" style="width:100%; height:300px;"></div>
-        </div>
+
+
+
+
         </div>
     </div>
   </div>
-
 
 
    <script type="text/javascript" src="/live_styles/live.js"></script>
